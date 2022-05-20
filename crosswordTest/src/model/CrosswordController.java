@@ -20,6 +20,21 @@ public class CrosswordController {
 	 */
 	public void initCrossword(String[][] puzzle) {
 		
+		int counter=0;
+
+		crossword= new Cell[puzzle.length][puzzle[0].length];
+
+        for(int i=0; i<puzzle.length; i++){
+            for(int j=0; j<puzzle[0].length; j++){
+                if(puzzle[i][j].equals(" ")){
+                    crossword[i][j]= new Cell(CellType.BLACK, " ", 0);
+                }
+                else{
+                    counter++;
+                    crossword[i][j]= new Cell(CellType.CLOSED, puzzle[i][j], counter);
+                }
+            }
+        }
 		
 	}
 	/**
@@ -52,7 +67,23 @@ public class CrosswordController {
 	 */
 	public String getHint(String letter) {
 		
-		return null;
+		String out="";
+		boolean flag=false;
+
+		for(int i=0; i<crossword.length && !flag; i++){
+            for(int j=0; j<crossword[0].length && !flag; j++){
+                if(crossword[i][j].getLetter().equals(letter)){
+                    out= "There is a word with the letter " + letter + " in the crossword int the box " + crossword[i][j].getNumber();
+					flag=true;
+                }
+                else{
+                    out= "Sorry, no hay palabras con la letra " + letter;
+					flag=true;
+                }
+            }
+        }
+
+		return out;
 	}
 	
 	/**
@@ -63,7 +94,23 @@ public class CrosswordController {
 	 */
 	public String evaluateCell(String letter, int num) {
 		
-		return null;
+		String out="";
+		boolean flag=false;
+
+		for(int i=0; i<crossword.length && !flag; i++){
+            for(int j=0; j<crossword[0].length && !flag; j++){
+                if(crossword[i][j].getLetter().equals(letter) && crossword[i][j].getNumber()==(num)){
+                    out= "La letra " + letter + " SI esta en la casilla " + num;
+					flag=true;
+                }
+                else{
+                    out= "Lo siento, la letra " + letter + " NO esta en la casilla " + num;
+					flag=true;
+                }
+            }
+        }
+
+		return out;
 	}
 	
 	public String showCrossword() {
@@ -119,6 +166,5 @@ public class CrosswordController {
 		out+= line + "\n";
 		return out;
 	}
-
 
 }
